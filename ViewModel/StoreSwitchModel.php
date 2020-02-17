@@ -18,6 +18,8 @@ class StoreSwitchModel implements ArgumentInterface
 {
     const MODULE_ENABLED_CONFIG_PATH = 'imi_store_switch/general/enable';
 
+    const MODULE_SHOW_COUNTRY_ONLY_CONFIG_PATH = 'imi_store_switch/general/show_country_only';
+
     const LOCALE_CONFIG_PATH = 'general/locale/code';
 
     const DEFAULT_COUNTRY_CONFIG_PATH = 'general/country/default';
@@ -177,5 +179,22 @@ class StoreSwitchModel implements ArgumentInterface
     {
         return $this->scopeConfig->getValue(self::DEFAULT_COUNTRY_CONFIG_PATH, ScopeInterface::SCOPE_STORE,
             $store->getId());
+    }
+
+    /**
+     * Get the formatted label for the dropdown, based on the format configuration.
+     * 
+     * @param StoreInterface $store
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public function getStoreSwitchLabel(StoreInterface $store): string 
+    {
+        $showCountryOnly = $this->scopeConfig->getValue(self::MODULE_SHOW_COUNTRY_ONLY_CONFIG_PATH, ScopeInterface::SCOPE_STORE, $store->getId());
+        if($showCountryOnly) {
+            return $this->getStoreCountyCode($store);
+        }
+        return $this->getParsedLanguage($store).'&nbsp;('.$this->getStoreCountyCode($store).')';
     }
 }

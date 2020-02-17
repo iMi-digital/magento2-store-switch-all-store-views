@@ -23,8 +23,7 @@ $context = $block->getData('context');
                 echo $id ?>" data-storelanguage="<?= $currentStore->getCode()?>">
                     <span class="mobile-hint"><?php /* @escapeNotVerified */ echo __('Language') ?>:</span>
                     <strong class="view-current-store-switch view-<?php echo $block->escapeHtml($block->getCurrentStoreCode()) ?>">
-                        <span><?php echo $block->escapeHtml($viewModel->getParsedLanguage($currentStore))
-                        ?> (<?php echo $block->escapeHtml($viewModel->getStoreCountyCode($currentStore)); ?>)</span>
+                        <span><?= $block->escapeHtml($viewModel->getStoreSwitchLabel($currentStore)) ?></span>
                     </strong>
                 </div>
                 <ul class="dropdown switcher-dropdown"
@@ -44,7 +43,8 @@ $context = $block->getData('context');
                                 <li class="view-<?php echo $block->escapeHtml($_store->getCode()); ?> switcher-option" data-storelanguage="<?php echo $block->escapeHtml($_store->getCode())?>">
                                     <a href="#" data-post='<?php /* @escapeNotVerified */
                                     echo $block->getTargetStorePostData($_store); ?>'>
-                                        <?php echo $block->escapeHtml($viewModel->getParsedLanguage($_store)) ?> (<?php echo $block->escapeHtml($viewModel->getStoreCountyCode($_store)) ?>)</a>
+                                        <?= $block->escapeHtml($viewModel->getStoreSwitchLabel($_store)) ?>
+                                    </a>
                                 </li>
                             <?php endif; ?>
                         <?php endforeach; ?>
