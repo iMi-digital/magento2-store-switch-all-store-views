@@ -18,13 +18,5 @@
         "psr-4": {
             "IMI\\StoreSwitch\\": ""
         }
-    },
-    "extra": {
-        "map": [
-            [
-                "*",
-                "IMI/StoreSwitch"
-            ]
-        ]
     }
 }
