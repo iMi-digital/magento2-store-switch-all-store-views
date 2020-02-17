@@ -4,6 +4,7 @@
         <imi_store_switch>
             <general>
                 <enable>0</enable>
+                <show_country_only>0</show_country_only>
             </general>
         </imi_store_switch>
     </default>
