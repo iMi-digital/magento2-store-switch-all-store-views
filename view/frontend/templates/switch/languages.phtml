@@ -38,13 +38,13 @@ $context = $block->getData('context');
                     "parentClass":"active",
                     "buttons":null}}'>
                     <?php foreach ($websites as $website): ?>
-                        <?php /** @var \Magento\Store\Model\Store $_lang */?>
-                        <?php foreach ($website->getStoreCollection() as $_lang): ?>
-                            <?php if ($_lang->getId() != $block->getCurrentStoreId() && $_lang->isActive() && $viewModel->isEnabled($_lang)): ?>
-                                <li class="view-<?php echo $block->escapeHtml($_lang->getCode()); ?> switcher-option" data-storelanguage="<?php echo $block->escapeHtml($_lang->getCode())?>">
+                        <?php /** @var \Magento\Store\Model\Store $_store */?>
+                        <?php foreach ($website->getStoreCollection() as $_store): ?>
+                            <?php if ($_store->getId() != $block->getCurrentStoreId() && $_store->isActive() && $viewModel->isEnabled($_store)): ?>
+                                <li class="view-<?php echo $block->escapeHtml($_store->getCode()); ?> switcher-option" data-storelanguage="<?php echo $block->escapeHtml($_store->getCode())?>">
                                     <a href="#" data-post='<?php /* @escapeNotVerified */
-                                    echo $block->getTargetStorePostData($_lang); ?>'>
-                                        <?php echo $block->escapeHtml($viewModel->getParsedLanguage($_lang)) ?> (<?php echo $block->escapeHtml($viewModel->getStoreCountyCode($_lang)) ?>)</a>
+                                    echo $block->getTargetStorePostData($_store); ?>'>
+                                        <?php echo $block->escapeHtml($viewModel->getParsedLanguage($_store)) ?> (<?php echo $block->escapeHtml($viewModel->getStoreCountyCode($_store)) ?>)</a>
                                 </li>
                             <?php endif; ?>
                         <?php endforeach; ?>
