@@ -1,10 +1,10 @@
 {
     "name": "imi/storeswitch",
-    "description": "",
+    "description": "This module makes all store views available in the store switcher, regardless of their store or website.",
     "require": {
-        "php": "~7.1.0",
-        "magento/module-cms": "null",
-        "magento/module-store": "null",
+        "php": "~7.2.0",
+        "magento/module-cms": "*",
+        "magento/module-store": "*",
         "magento/magento-composer-installer": "*"
     },
     "type": "magento2-module",
