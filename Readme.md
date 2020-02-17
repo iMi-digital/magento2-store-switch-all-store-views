@@ -8,4 +8,6 @@ It is possible to enable or disabled the switcher in default, website and store 
 The switcher is disabled by default, it can be enabled with the config value `imi_store_switch/general/enable` or in 
 the admin configuration on `Stores > iMi > Store Switch`.
 
+# License
 
+© 2020 iMi digital GmbH. Licensed under [MIT](LICENSE).
