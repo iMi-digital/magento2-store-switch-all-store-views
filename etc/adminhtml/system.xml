@@ -15,7 +15,7 @@
                     <label>Enable Switch</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="show_country_only" translate="label" type="select" sortOrder="2" showInDefault="1" showInStore="1" showInWebsite="1">
+                <field id="show_country_only" translate="label" type="select" sortOrder="2" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
                     <label>Show Country Code Only</label>
                     <comment>If this option is enabled, the switch will only show the country code. Otherwise, country code and label will be shown.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
