@@ -4,8 +4,7 @@
     "require": {
         "php": "~7.2.0",
         "magento/module-cms": "*",
-        "magento/module-store": "*",
-        "magento/magento-composer-installer": "*"
+        "magento/module-store": "*"
     },
     "type": "magento2-module",
     "version": "0.1.0",
