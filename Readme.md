@@ -6,4 +6,3 @@ By passing `\IMI\StoreSwitch\ViewModel\StoreSwitchModel` as an argument to the S
 It is possible to enable or disabled the switcher in default, website and store scope. The corresponding acl resource is `IMI_StoreSwitch::config`.
 
 The switcher is disabled by default.
-

@@ -1,0 +1,31 @@
+{
+    "name": "imi/storeswitch",
+    "description": "",
+    "require": {
+        "php": "~7.1.0",
+        "magento/module-cms": "null",
+        "magento/module-store": "null",
+        "magento/magento-composer-installer": "*"
+    },
+    "type": "magento2-module",
+    "version": "0.1.0",
+    "license": [
+
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "IMI\\StoreSwitch\\": ""
+        }
+    },
+    "extra": {
+        "map": [
+            [
+                "*",
+                "IMI/StoreSwitch"
+            ]
+        ]
+    }
+}

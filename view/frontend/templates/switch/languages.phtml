@@ -1,0 +1,64 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+/** @var Magento\Store\Block\Switcher $block */
+?>
+<?php
+/**
+ * Language switcher template
+ */
+/** @var \IMI\StoreSwitch\ViewModel\StoreSwitchModel $viewModel */
+$viewModel = $block->getData('view_model');
+$context = $block->getData('context');
+?>
+<?php if ($viewModel->isEnabled() && $viewModel->isEnabledOnOtherStores()): ?>
+    <?php $websites = $viewModel->getWebsites(); ?>
+    <!-- Languages Switch -->
+    <div class="metaNav-item language-switch">
+        <?php $id = $context . ($block->getIdModifier() ? '-' . $block->getIdModifier() : '') ?>
+        <div class="switcher language switcher-language" data-ui-id="language-switcher"
+             id="switcher-language<?php /* @escapeNotVerified */
+             echo $id ?>">
+            <strong class="label switcher-label"><span><?php /* @escapeNotVerified */
+                    echo __('Language') ?></span></strong>
+            <div class="actions dropdown options switcher-options">
+                <?php $currentStore = $viewModel->getCurrentStore(); ?>
+                <div class="action toggle switcher-trigger" id="switcher-language-trigger<?php /* @escapeNotVerified */
+                echo $id ?>" data-storelanguage="<?= $currentStore->getCode()?>">
+                    <span class="mobile-hint"><?php /* @escapeNotVerified */ echo __('Language') ?>:</span>
+                    <strong class="view-current-store-switch view-<?php echo $block->escapeHtml($block->getCurrentStoreCode()) ?>">
+                        <span><?php echo $block->escapeHtml($viewModel->getParsedLanguage($currentStore))
+                        ?> (<?php echo $block->escapeHtml($viewModel->getStoreCountyCode($currentStore)); ?>)</span>
+                    </strong>
+                </div>
+                <ul class="dropdown switcher-dropdown"
+                    data-mage-init='{"dropdownDialog":{
+                    "appendTo":"#switcher-language<?php /* @escapeNotVerified */
+                    echo $id ?> > .options",
+                    "triggerTarget":"#switcher-language-trigger<?php /* @escapeNotVerified */
+                    echo $id ?>",
+                    "closeOnMouseLeave": false,
+                    "triggerClass":"active",
+                    "parentClass":"active",
+                    "buttons":null}}'>
+                    <?php foreach ($websites as $website): ?>
+                        <?php /** @var \Magento\Store\Model\Store $_lang */?>
+                        <?php foreach ($website->getStoreCollection() as $_lang): ?>
+                            <?php if ($_lang->getId() != $block->getCurrentStoreId() && $_lang->isActive() && $viewModel->isEnabled($_lang)): ?>
+                                <li class="view-<?php echo $block->escapeHtml($_lang->getCode()); ?> switcher-option" data-storelanguage="<?php echo $block->escapeHtml($_lang->getCode())?>">
+                                    <a href="#" data-post='<?php /* @escapeNotVerified */
+                                    echo $block->getTargetStorePostData($_lang); ?>'>
+                                        <?php echo $block->escapeHtml($viewModel->getParsedLanguage($_lang)) ?> (<?php echo $block->escapeHtml($viewModel->getStoreCountyCode($_lang)) ?>)</a>
+                                </li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
