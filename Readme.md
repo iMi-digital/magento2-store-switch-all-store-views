@@ -45,6 +45,25 @@ If you're running this on a shop in production mode, run
 bin/magento setup:static-content:deploy
 bin/magento cache:flush
 ```
+## Porto Theme
+
+This has partial support for the Porto Theme, without warranty.
+
+You might want to try this layout update in `default.xml` of your child theme:
+
+```
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="porto_header">
+            <block class="Magento\Store\Block\Switcher" name="store_language" as="store_language" template="IMI_StoreSwitch::switch/languages-porto.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">IMI\StoreSwitch\ViewModel\StoreSwitchModel</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
+```
 
 # License
 
