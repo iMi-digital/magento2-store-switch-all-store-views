@@ -6,7 +6,6 @@
         "magento/module-store": "*"
     },
     "type": "magento2-module",
-    "version": "0.1.1",
     "license": [
         "MIT"
     ],
