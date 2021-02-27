@@ -183,18 +183,18 @@ class StoreSwitchModel implements ArgumentInterface
 
     /**
      * Get the formatted label for the dropdown, based on the format configuration.
-     * 
+     *
      * @param StoreInterface $store
      *
      * @return string
      * @throws \Exception
      */
-    public function getStoreSwitchLabel(StoreInterface $store): string 
+    public function getStoreSwitchLabel(StoreInterface $store): string
     {
         $showCountryOnly = $this->scopeConfig->getValue(self::MODULE_SHOW_COUNTRY_ONLY_CONFIG_PATH, ScopeInterface::SCOPE_STORE, $store->getId());
         if($showCountryOnly) {
             return $this->getStoreCountyCode($store);
         }
-        return $this->getParsedLanguage($store).'&nbsp;('.$this->getStoreCountyCode($store).')';
+        return $this->storeManager->getStore($store)->getName($store);
     }
 }
