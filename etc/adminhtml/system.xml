@@ -20,6 +20,11 @@
                     <comment>If this option is enabled, the switch will only show the country code. Otherwise, country code and label will be shown.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="available_web_sites" translate="label" type="multiselect" sortOrder="3" showInDefault="1" showInStore="0" showInWebsite="1" canRestore="1">
+                    <label>Available Web Sites For Switching</label>
+                    <source_model>Magento\Config\Model\Config\Source\Website</source_model>
+                    <comment>This option lets you restrict the which store views can be switched between (on a web site level). It specifies all available web sites for the current scope. If you don't select any website, switching will not be restricted, letting you switch between all store views of all web sites.</comment>
+                </field>
             </group>
         </section>
     </system>

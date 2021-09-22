@@ -5,6 +5,7 @@
             <general>
                 <enable>0</enable>
                 <show_country_only>0</show_country_only>
+                <available_web_sites></available_web_sites>
             </general>
         </imi_store_switch>
     </default>
