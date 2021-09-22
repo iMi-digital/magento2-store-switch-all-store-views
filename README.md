@@ -43,6 +43,9 @@ n98-magerun2 config:store:set --scope websites --scope-id 3 imi_store_switch/gen
 
 This would allow switching between store views of websites with the id 1 and 2, but not 3 (store views within 3 will still work).
 
+By default (if the configuration variable is not set), you can switch to all other websites. Set it to an empty string or 
+null to disallow switching to another website.
+
 # Installing
 
 The easiest way to install the module is from [packagist](https://packagist.org/packages/imi/magento2-store-switch-all-store-views) by running
