@@ -31,7 +31,7 @@ With the option enabled, it looks like this:
 ### Restrict switching between websites
 
 You can configure the store switcher to allow switching only between some websites instead of all. To do this, you 
-need to set the `..` config variable to the ids of the website you want to allow.
+need to set the `imi_store_switch/general/available_web_sites` config variable to the ids of the website you want to allow.
 
 For example:
 
