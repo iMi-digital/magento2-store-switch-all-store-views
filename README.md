@@ -28,6 +28,21 @@ With the option enabled, it looks like this:
 
 ![](country-code-only.png)
 
+### Restrict switching between websites
+
+You can configure the store switcher to allow switching only between some websites instead of all. To do this, you 
+need to set the `..` config variable to the ids of the website you want to allow.
+
+For example:
+
+```
+n98-magerun2 config:store:set --scope websites --scope-id 1 imi_store_switch/general/available_web_sites 1,2
+n98-magerun2 config:store:set --scope websites --scope-id 2 imi_store_switch/general/available_web_sites 1,2
+n98-magerun2 config:store:set --scope websites --scope-id 3 imi_store_switch/general/available_web_sites 3  
+```
+
+This would allow switching between store views of websites with the id 1 and 2, but not 3 (store views within 3 will still work).
+
 # Installing
 
 The easiest way to install the module is from [packagist](https://packagist.org/packages/imi/magento2-store-switch-all-store-views) by running

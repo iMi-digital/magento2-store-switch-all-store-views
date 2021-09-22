@@ -24,6 +24,8 @@ class StoreSwitchModel implements ArgumentInterface
 
     const DEFAULT_COUNTRY_CONFIG_PATH = 'general/country/default';
 
+    const AVAILABLE_WEB_SITES_CONFIG_PATH = 'imi_store_switch/general/available_web_sites';
+
     /**
      * @var WebsiteCollectionFactory
      */
@@ -110,6 +112,19 @@ class StoreSwitchModel implements ArgumentInterface
         return $this->storeManager->getStore();
     }
 
+    private function getEnabledWebsitesForCurrentWebsite(): ?array
+    {
+        $enabledWebsites = $this->scopeConfig->getValue(
+            self::AVAILABLE_WEB_SITES_CONFIG_PATH,
+            ScopeInterface::SCOPE_WEBSITE);
+
+        if($enabledWebsites === null) {
+            return null;
+        }
+
+        return explode(',', $enabledWebsites);
+    }
+
     /**
      * Get collection of websites.
      *
@@ -117,7 +132,15 @@ class StoreSwitchModel implements ArgumentInterface
      */
     public function getWebsites(): WebsiteCollection
     {
-        return $this->websiteCollectionFactory->create();
+        $collection = $this->websiteCollectionFactory->create();
+
+        $enabledIds = $this->getEnabledWebsitesForCurrentWebsite();
+
+        if($enabledIds === null) {
+            return $collection;
+        }
+
+        return $collection->addIdFilter($enabledIds);
     }
 
     /**
@@ -183,13 +206,13 @@ class StoreSwitchModel implements ArgumentInterface
 
     /**
      * Get the formatted label for the dropdown, based on the format configuration.
-     * 
+     *
      * @param StoreInterface $store
      *
      * @return string
      * @throws \Exception
      */
-    public function getStoreSwitchLabel(StoreInterface $store): string 
+    public function getStoreSwitchLabel(StoreInterface $store): string
     {
         $showCountryOnly = $this->scopeConfig->getValue(self::MODULE_SHOW_COUNTRY_ONLY_CONFIG_PATH, ScopeInterface::SCOPE_STORE, $store->getId());
         if($showCountryOnly) {
