@@ -218,6 +218,6 @@ class StoreSwitchModel implements ArgumentInterface
         if($showCountryOnly) {
             return $this->getStoreCountyCode($store);
         }
-        return $this->getParsedLanguage($store).'&nbsp;('.$this->getStoreCountyCode($store).')';
+        return $this->storeManager->getStore($store)->getName($store);
     }
 }
