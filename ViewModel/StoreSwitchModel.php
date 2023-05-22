@@ -1,8 +1,6 @@
 <?php
 
-
 namespace IMI\StoreSwitch\ViewModel;
-
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Locale\TranslatedLists;
@@ -59,28 +57,10 @@ class StoreSwitchModel implements ArgumentInterface
         RewriteUrl $storeSwitcher,
     ) {
         $this->websiteCollectionFactory = $websiteCollectionFactory;
-        $this->scopeConfig              = $scopeConfig;
-        $this->translatedLists          = $translatedLists;
-        $this->storeManager             = $storeManager;
+        $this->scopeConfig = $scopeConfig;
+        $this->translatedLists = $translatedLists;
+        $this->storeManager = $storeManager;
         $this->storeSwitcher = $storeSwitcher;
-    }
-
-    /**
-     * Is the module functionality enabled for current or passed store.
-     *
-     * @param null $store
-     *
-     * @return bool
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    public function isEnabled($store = null): bool
-    {
-        $configValue = $this->scopeConfig->getValue(
-            self::MODULE_ENABLED_CONFIG_PATH,
-            ScopeInterface::SCOPE_STORE,
-            $store ?? $this->getCurrentStore()->getId());
-
-        return boolval($configValue);
     }
 
     /**
@@ -99,29 +79,8 @@ class StoreSwitchModel implements ArgumentInterface
                 }
             }
         }
+
         return false;
-    }
-
-    /**
-     * @return StoreInterface|string|null
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    public function getCurrentStore(): StoreInterface
-    {
-        return $this->storeManager->getStore();
-    }
-
-    private function getEnabledWebsitesForCurrentWebsite(): ?array
-    {
-        $enabledWebsites = $this->scopeConfig->getValue(
-            self::AVAILABLE_WEB_SITES_CONFIG_PATH,
-            ScopeInterface::SCOPE_WEBSITE);
-
-        if($enabledWebsites === null) {
-            return null;
-        }
-
-        return explode(',', $enabledWebsites);
     }
 
     /**
@@ -135,11 +94,91 @@ class StoreSwitchModel implements ArgumentInterface
 
         $enabledIds = $this->getEnabledWebsitesForCurrentWebsite();
 
-        if($enabledIds === null) {
+        if ($enabledIds === null) {
             return $collection;
         }
 
         return $collection->addIdFilter($enabledIds);
+    }
+
+    private function getEnabledWebsitesForCurrentWebsite(): ?array
+    {
+        $enabledWebsites = $this->scopeConfig->getValue(
+            self::AVAILABLE_WEB_SITES_CONFIG_PATH,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+
+        if ($enabledWebsites === null) {
+            return null;
+        }
+
+        return explode(',', $enabledWebsites);
+    }
+
+    /**
+     * Is the module functionality enabled for current or passed store.
+     *
+     * @param null $store
+     *
+     * @return bool
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function isEnabled($store = null): bool
+    {
+        $configValue = $this->scopeConfig->getValue(
+            self::MODULE_ENABLED_CONFIG_PATH,
+            ScopeInterface::SCOPE_STORE,
+            $store ?? $this->getCurrentStore()->getId()
+        );
+
+        return boolval($configValue);
+    }
+
+    /**
+     * @return StoreInterface|string|null
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getCurrentStore(): StoreInterface
+    {
+        return $this->storeManager->getStore();
+    }
+
+    /**
+     * Get the formatted label for the dropdown, based on the format configuration.
+     *
+     * @param StoreInterface $store
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public function getStoreSwitchLabel(StoreInterface $store): string
+    {
+        $showCountryOnly = $this->scopeConfig->getValue(
+            self::MODULE_SHOW_COUNTRY_ONLY_CONFIG_PATH,
+            ScopeInterface::SCOPE_STORE,
+            $store->getId()
+        );
+        if ($showCountryOnly) {
+            return $this->getStoreCountyCode($store);
+        }
+
+        return $this->getParsedLanguage($store) . '&nbsp;(' . $this->getStoreCountyCode($store) . ')';
+    }
+
+    /**
+     * Get country code for given store.
+     *
+     * @param StoreInterface $store
+     *
+     * @return string
+     */
+    public function getStoreCountyCode(StoreInterface $store): string
+    {
+        return $this->scopeConfig->getValue(
+            self::DEFAULT_COUNTRY_CONFIG_PATH,
+            ScopeInterface::SCOPE_STORE,
+            $store->getId()
+        );
     }
 
     /**
@@ -167,7 +206,7 @@ class StoreSwitchModel implements ArgumentInterface
      */
     private function getStoreLocaleLabel(StoreInterface $store): string
     {
-        $locales     = $this->translatedLists->getOptionLocales();
+        $locales = $this->translatedLists->getOptionLocales();
         $storeLocale = $this->getStoreLocale($store);
 
         foreach ($locales as $locale) {
@@ -188,36 +227,6 @@ class StoreSwitchModel implements ArgumentInterface
     private function getStoreLocale(StoreInterface $store): string
     {
         return $this->scopeConfig->getValue(self::LOCALE_CONFIG_PATH, ScopeInterface::SCOPE_STORE, $store->getId());
-    }
-
-    /**
-     * Get country code for given store.
-     *
-     * @param StoreInterface $store
-     *
-     * @return string
-     */
-    public function getStoreCountyCode(StoreInterface $store): string
-    {
-        return $this->scopeConfig->getValue(self::DEFAULT_COUNTRY_CONFIG_PATH, ScopeInterface::SCOPE_STORE,
-            $store->getId());
-    }
-
-    /**
-     * Get the formatted label for the dropdown, based on the format configuration.
-     *
-     * @param StoreInterface $store
-     *
-     * @return string
-     * @throws \Exception
-     */
-    public function getStoreSwitchLabel(StoreInterface $store): string
-    {
-        $showCountryOnly = $this->scopeConfig->getValue(self::MODULE_SHOW_COUNTRY_ONLY_CONFIG_PATH, ScopeInterface::SCOPE_STORE, $store->getId());
-        if($showCountryOnly) {
-            return $this->getStoreCountyCode($store);
-        }
-        return $this->getParsedLanguage($store).'&nbsp;('.$this->getStoreCountyCode($store).')';
     }
 
     public function useDirectLinks(): bool
