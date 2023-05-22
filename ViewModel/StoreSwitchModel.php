@@ -13,6 +13,7 @@ use Magento\Store\Model\ResourceModel\Website\CollectionFactory as WebsiteCollec
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManager;
+use Magento\UrlRewrite\Model\StoreSwitcher\RewriteUrl;
 
 class StoreSwitchModel implements ArgumentInterface
 {
@@ -25,6 +26,10 @@ class StoreSwitchModel implements ArgumentInterface
     const DEFAULT_COUNTRY_CONFIG_PATH = 'general/country/default';
 
     const AVAILABLE_WEB_SITES_CONFIG_PATH = 'imi_store_switch/general/available_web_sites';
+
+    private const USE_DIRECT_LINKS = 'imi_store_switch/general/use_direct_links';
+
+    protected RewriteUrl $storeSwitcher;
 
     /**
      * @var WebsiteCollectionFactory
@@ -46,24 +51,18 @@ class StoreSwitchModel implements ArgumentInterface
      */
     private $storeManager;
 
-    /**
-     * LanguageSwitchModel constructor.
-     *
-     * @param WebsiteCollectionFactory $websiteCollectionFactory
-     * @param ScopeConfigInterface $scopeConfig
-     * @param TranslatedLists $translatedLists
-     * @param StoreManager $storeManager
-     */
     public function __construct(
         WebsiteCollectionFactory $websiteCollectionFactory,
         ScopeConfigInterface $scopeConfig,
         TranslatedLists $translatedLists,
-        StoreManager $storeManager
+        StoreManager $storeManager,
+        RewriteUrl $storeSwitcher,
     ) {
         $this->websiteCollectionFactory = $websiteCollectionFactory;
         $this->scopeConfig              = $scopeConfig;
         $this->translatedLists          = $translatedLists;
         $this->storeManager             = $storeManager;
+        $this->storeSwitcher = $storeSwitcher;
     }
 
     /**
@@ -219,5 +218,21 @@ class StoreSwitchModel implements ArgumentInterface
             return $this->getStoreCountyCode($store);
         }
         return $this->getParsedLanguage($store).'&nbsp;('.$this->getStoreCountyCode($store).')';
+    }
+
+    public function useDirectLinks(): bool
+    {
+        return boolval($this->scopeConfig->getValue(self::USE_DIRECT_LINKS, ScopeInterface::SCOPE_STORES));
+    }
+
+    public function getDirectLink(Store $_store, string $currentUrl): string
+    {
+        $newUrl = $this->storeSwitcher->switch($this->storeManager->getStore(), $_store, $currentUrl);
+
+        if ($newUrl === $currentUrl) {
+            return $_store->getBaseUrl();
+        }
+
+        return $newUrl;
     }
 }

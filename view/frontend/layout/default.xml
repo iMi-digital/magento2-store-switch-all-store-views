@@ -20,6 +20,9 @@
                             <argument name="id_modifier" xsi:type="string">nav</argument>
                             <argument name="view_model" xsi:type="object">IMI\StoreSwitch\ViewModel\StoreSwitchModel</argument>
                         </arguments>
+                        <action method="setTemplate" ifconfig="imi_store_switch/general/use_direct_links">
+                            <argument name="template" xsi:type="string">IMI_StoreSwitch::switch/direct/languages.phtml</argument>
+                        </action>
                     </referenceBlock>
                 </referenceBlock>
             </referenceBlock>

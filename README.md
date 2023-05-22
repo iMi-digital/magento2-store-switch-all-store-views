@@ -77,6 +77,9 @@ You might want to try this layout update in `default.xml` of your child theme:
                 <arguments>
                     <argument name="view_model" xsi:type="object">IMI\StoreSwitch\ViewModel\StoreSwitchModel</argument>
                 </arguments>
+                <action method="setTemplate" ifconfig="imi_store_switch/general/use_direct_links">
+                    <argument name="template" xsi:type="string">IMI_StoreSwitch::switch/direct/languages-porto.phtml</argument>
+                </action>
             </block>
         </referenceContainer>
     </body>
