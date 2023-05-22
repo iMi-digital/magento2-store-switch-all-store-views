@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="store-language-switcher" template="IMI_StoreSwitch::switch/languages-hyva.phtml">
+            <action method="setTemplate" ifconfig="imi_store_switch/general/use_direct_links">
+                <argument name="template" xsi:type="string">IMI_StoreSwitch::switch/direct/languages-hyva.phtml</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>

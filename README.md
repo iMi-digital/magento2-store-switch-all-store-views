@@ -85,6 +85,9 @@ You might want to try this layout update in `default.xml` of your child theme:
     </body>
 </page>
 ```
+## Hyvä Theme
+
+This has partial support for the Hyvä Theme, without warranty.
 
 # License
 
