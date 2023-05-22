@@ -46,6 +46,16 @@ This would allow switching between store views of websites with the id 1 and 2, 
 By default (if the configuration variable is not set), you can switch to all other websites. Set it to an empty string or 
 null to disallow switching to another website.
 
+### Use direct links instead of redirects
+
+You can configure the switcher to use direct links instead of the redirect method. This however only works with stores 
+that do not share an url. You can enable this feature either via the adminpanel under *Stores > Settings > Configuration > 
+IMI > Store Switch > General > Use direct Links* or by cli:
+
+```bash
+n98-magerun2 config:store:set imi_store_switch/general/use_direct_links 1
+```
+
 # Installing
 
 The easiest way to install the module is from [packagist](https://packagist.org/packages/imi/magento2-store-switch-all-store-views) by running
