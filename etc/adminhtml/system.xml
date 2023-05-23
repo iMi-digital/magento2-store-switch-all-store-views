@@ -25,6 +25,11 @@
                     <source_model>Magento\Config\Model\Config\Source\Website</source_model>
                     <comment>This option lets you restrict the which store views can be switched between (on a web site level). It specifies all available web sites for the current scope. If you don't select any website, switching will not be restricted, letting you switch between all store views of all web sites.</comment>
                 </field>
+                <field id="use_direct_links" translate="label" type="select" sortOrder="10" showInDefault="1" showInStore="1" showInWebsite="1" canRestore="1">
+                    <label>Use direct Links</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Use direct links instead of Magentos redirect chains.</comment>
+                </field>
             </group>
         </section>
     </system>

@@ -1,0 +1,66 @@
+<?php
+/**
+ * Language switcher template with direct links
+ */
+/** @var \IMI\StoreSwitch\ViewModel\StoreSwitchModel $viewModel */
+/** @var Magento\Store\Block\Switcher $block */
+$viewModel = $block->getData('view_model');
+$context = $block->getData('context');
+?>
+<?php if ($viewModel->isEnabled() && $viewModel->isEnabledOnOtherStores()): ?>
+    <?php $websites = $viewModel->getWebsites(); ?>
+    <!-- Languages Switch -->
+    <div class="metaNav-item language-switch">
+        <?php $id = $context . ($block->getIdModifier() ? '-' . $block->getIdModifier() : '') ?>
+        <div class="switcher language switcher-language" data-ui-id="language-switcher"
+             id="switcher-language<?= $block->escapeHtml($id) ?>"
+        >
+            <strong class="label switcher-label">
+                <span><?= /* @escapeNotVerified */
+                    __('Language') ?></span>
+            </strong>
+            <div class="actions dropdown options switcher-options">
+                <?php $currentStore = $viewModel->getCurrentStore(); ?>
+                <div class="action toggle switcher-trigger"
+                     id="switcher-language-trigger<?= $block->escapeHtml($id) ?>"
+                >
+                    <span class="mobile-hint"><?= $block->escapeHtml(__('Language')) ?>:</span>
+                    <strong
+                        class="view-current-store-switch view-<?= $block->escapeHtml($block->getCurrentStoreCode()) ?>">
+                        <span><?= $block->escapeHtml($viewModel->getStoreSwitchLabel($currentStore)) ?></span>
+                    </strong>
+                </div>
+                <ul class="dropdown switcher-dropdown"
+                    data-mage-init='{"dropdownDialog":{
+                    "appendTo":"#switcher-language<?= $block->escapeHtml($id) ?> > .options",
+                    "triggerTarget":"#switcher-language-trigger<?= $block->escapeHtml($id) ?>",
+                    "closeOnMouseLeave": false,
+                    "triggerClass":"active",
+                    "parentClass":"active",
+                    "buttons":null}}'>
+                    <?php foreach ($websites as $website): ?>
+                        <?php /** @var \Magento\Store\Model\Store $_store */ ?>
+                        <?php foreach ($website->getStoreCollection() as $_store): ?>
+                            <?php if (
+                                $_store->getId() != $block->getCurrentStoreId()
+                                && $_store->isActive()
+                                && $viewModel->isEnabled($_store)
+                            ): ?>
+                                <li class="view-<?= $block->escapeHtml($_store->getCode()); ?> switcher-option">
+                                    <a href="<?= $block->escapeHtml(
+                                        $viewModel->getDirectLink(
+                                            $_store,
+                                            $block->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true])
+                                        )
+                                    ) ?>" class="text-white">
+                                        <?= $block->escapeHtml($viewModel->getStoreSwitchLabel($_store)) ?>
+                                    </a>
+                                </li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
